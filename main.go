@@ -1,15 +1,35 @@
 package main
 
 import (
-	"encoding/json"
+	"bufio"
+	"log"
 	"net/http"
+	"os"
 )
 
-func RootHandler(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("Welcome")
-}
+var sliceWords []string
+var mapWords words
+var todayAnswer string
 
 func main() {
-	http.HandleFunc("/", RootHandler)
+	todayAnswer = "broke"
+	file, err := os.Open("words.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	
+	for scanner.Scan() {
+		sliceWords = append(sliceWords, scanner.Text())
+	}
+
+	mapWords = sliceToMap(sliceWords)
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+	http.HandleFunc("/guess", GuessHandler)
 	http.ListenAndServe(":8080", nil)
 }
