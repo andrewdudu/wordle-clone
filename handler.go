@@ -16,7 +16,7 @@ type GuessResponse struct {
 	Valid  bool   `json:"isValid"`
 }
 
-func ConstructResponse() GuessResponse {
+func ConstructGuessResponse() GuessResponse {
 	res := GuessResponse{
 		Valid: true,
 	}
@@ -26,7 +26,7 @@ func ConstructResponse() GuessResponse {
 
 func GuessHandler(w http.ResponseWriter, r *http.Request) {
 	var guessRequest GuessRequest
-	res := ConstructResponse()
+	res := ConstructGuessResponse()
 	result := "-----"
 	ConstructRequest(&guessRequest, w, r)
 

@@ -6,7 +6,7 @@ import (
 )
 
 type request interface {
-	GuessRequest
+	GuessRequest | ShuffleRequest
 }
 
 func ConstructRequest[R request](req *R, w http.ResponseWriter, r *http.Request) {
